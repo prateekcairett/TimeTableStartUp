@@ -101,25 +101,48 @@ public class SpacedOut {
 		}
 		return lecture_list;
 	}
-	public void Permute(ArrayList<Integer> lecture_list, int i){
+	public Double Permute(ArrayList<Integer> lecture_list, int i){
 		String permute_memory_member = lecture_list.toString();
+		String sub_lecture_list = permute_memory_member.substring(i, permute_memory_member.length()-1);
+		Double sub_lecture_dynamic_score = DynamicScore(sub_lecture_list);
+		Double min_top_score = MinScoreInBestScores();
+		
 		if(m_permute_memory.contains(permute_memory_member))
-			return;
+			return sub_lecture_dynamic_score;
 		
 		else if(i==lecture_list.size()){
 			ComputeDistance(lecture_list);
-			return;
+			return 0.0;
 		}
 		
-		else{
-			for (int j = i; j < lecture_list.size(); j++) {
-				ArrayList<Integer> new_lecture_list = new ArrayList<Integer>(lecture_list);
-				new_lecture_list = LectureSwap(new_lecture_list, i, j);
-				Permute(new_lecture_list, i + 1);
-				String new_permute_memory_member = new_lecture_list.toString() + Integer.toString(i);
-				m_permute_memory.add(new_permute_memory_member);
-			}
+		else if(sub_lecture_dynamic_score != -1 || sub_lecture_dynamic_score < min_top_score){
+			return sub_lecture_dynamic_score;
 		}
+		
+		Double max = 0.0;
+		for (int j = i; j < lecture_list.size(); j++) {
+			ArrayList<Integer> new_lecture_list = new ArrayList<Integer>(lecture_list);
+			new_lecture_list = LectureSwap(new_lecture_list, i, j);
+			Double value = Permute(new_lecture_list, i + 1) + SpaceCurrent(new_lecture_list, i);
+			if(value > max)
+				max = value;
+			String new_permute_memory_member = new_lecture_list.toString() + Integer.toString(i);
+			m_permute_memory.add(new_permute_memory_member);
+		}
+		UpdateDynamicScore(sub_lecture_list,max);
+		UpdateBestScores(max);
+		return max;
+	}
+
+	private void UpdateDynamicScore(String sub_lecture_list, Double max) {
+		char[] chars = sub_lecture_list.toCharArray();
+		Arrays.sort(chars);
+		String sorted = new String(chars);
+		m_dynamic_scores.put(sorted, max);
+	}
+
+	private Double SpaceCurrent(ArrayList<Integer> new_lecture_list, int i) {
+		return null;
 	}
 
 	private ArrayList<Integer> LectureSwap(ArrayList<Integer> new_lecture_list, int i, int j) {
