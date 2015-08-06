@@ -18,39 +18,41 @@ public class SpacedOut {
 	private HashMap<String, Double> m_ranked_timetable;
 	private Map<Integer, String> m_subject_code;
 	
-	private Queue<Double> m_best_combinatorial_score = new PriorityQueue<>(10); 
-	private Map<String, Double> m_dynamic_scores;
+	private Queue<Double> m_top_k_scores = new PriorityQueue<>(10); 
+	private Map<String, Double> m_best_combinatorial_scores;
+	public int m_permuation_count;
 	
 	public SpacedOut(){
 		m_permute_memory = new HashSet<String>();
 		m_ranked_timetable = new HashMap<String, Double>();
 		m_subject_code = new HashMap<Integer, String>();
 		m_ranked_timetable.clear();
-		m_best_combinatorial_score.clear();
-		m_dynamic_scores.clear();
+		m_top_k_scores.clear();
+		m_best_combinatorial_scores = new HashMap<String, Double>();
+		m_permuation_count = 0;
 	}
 	
-	public Double MinScoreInBestScores(){
-		return m_best_combinatorial_score.peek();
+	public Double MinInTopKScores(){
+		return m_top_k_scores.peek();
 	}
 	
-	public Double DynamicScore(String lecture_subset){
+	public Double BestCombinatorialScore(String lecture_subset){
 		char[] chars = lecture_subset.toCharArray();
 		Arrays.sort(chars);
 		String sorted = new String(chars);
-		if(m_dynamic_scores.containsKey(sorted))
-			return m_dynamic_scores.get(sorted);
+		if(m_best_combinatorial_scores.containsKey(sorted))
+			return m_best_combinatorial_scores.get(sorted);
 		else
 			return -1.0;
 	}
 	
-	public void UpdateBestScores(Double score){
-		Double min_score = m_best_combinatorial_score.peek();
+	public void UpdateBestCombinatorialScore(Double score){
+		Double min_score = m_top_k_scores.peek();
 		if(score > min_score){
-			if(m_best_combinatorial_score.size() == 10){
-				m_best_combinatorial_score.poll();
+			if(m_top_k_scores.size() == 10){
+				m_top_k_scores.poll();
 			}
-			m_best_combinatorial_score.add(score);
+			m_top_k_scores.add(score);
 		}
 	}
 	
@@ -66,13 +68,14 @@ public class SpacedOut {
 		subject_count.put("English", 2);
 		subject_count.put("SST", 2);
 		subject_count.put("Computer Science", 1);
-//		subject_count.put("Physics", 1);
-//		subject_count.put("Chemistry", 1);
-//		subject_count.put("Sub1", 1);
-//		subject_count.put("Sub2", 1);
-//		subject_count.put("Sub3", 1);
-//		subject_count.put("Sub4", 1);
+		subject_count.put("Physics", 1);
+		subject_count.put("Chemistry", 1);
+		subject_count.put("Sub1", 1);
+		subject_count.put("Sub2", 1);
+		subject_count.put("Sub3", 1);
+		subject_count.put("Sub4", 1);
 		spaced_out.SingleClassTimeTables(subject_count);
+		System.out.println(spaced_out.m_permuation_count);
 	}
 
 /*	private void CheckPassbyValue(char[] lecture_list) {
@@ -102,35 +105,41 @@ public class SpacedOut {
 		return lecture_list;
 	}
 	public Double Permute(ArrayList<Integer> lecture_list, int i){
-		String permute_memory_member = lecture_list.toString();
+		String permute_memory_member = lecture_list.toString() + Integer.toString(i);
 		String sub_lecture_list = permute_memory_member.substring(i, permute_memory_member.length()-1);
-		Double sub_lecture_dynamic_score = DynamicScore(sub_lecture_list);
-		Double min_top_score = MinScoreInBestScores();
+		Double sub_lecture_dynamic_score = BestCombinatorialScore(sub_lecture_list);
+		Double min_top_score = MinInTopKScores();
 		
 		if(m_permute_memory.contains(permute_memory_member))
 			return sub_lecture_dynamic_score;
 		
-		else if(i==lecture_list.size()){
-			ComputeDistance(lecture_list);
+		if(i==lecture_list.size()){
+			m_permuation_count++;
+			Spacing(lecture_list);
 			return 0.0;
 		}
 		
-		else if(sub_lecture_dynamic_score != -1 || sub_lecture_dynamic_score < min_top_score){
-			return sub_lecture_dynamic_score;
-		}
+//		else if(sub_lecture_dynamic_score != -1 || sub_lecture_dynamic_score < min_top_score){
+//			return sub_lecture_dynamic_score;
+//		}
 		
 		Double max = 0.0;
 		for (int j = i; j < lecture_list.size(); j++) {
 			ArrayList<Integer> new_lecture_list = new ArrayList<Integer>(lecture_list);
-			new_lecture_list = LectureSwap(new_lecture_list, i, j);
-			Double value = Permute(new_lecture_list, i + 1) + SpaceCurrent(new_lecture_list, i);
-			if(value > max)
-				max = value;
-			String new_permute_memory_member = new_lecture_list.toString() + Integer.toString(i);
-			m_permute_memory.add(new_permute_memory_member);
+			int first_value = new_lecture_list.get(i).intValue();
+			int second_value = new_lecture_list.get(j).intValue();
+			if( first_value != second_value || i == j){
+				new_lecture_list = LectureSwap(new_lecture_list, i, j);
+				//System.out.println(i + " : " + j + new_lecture_list);
+				Double value = Permute(new_lecture_list, i + 1); // + SpaceCurrent(new_lecture_list, i);
+				if(value > max)
+					max = value;
+				String new_permute_memory_member = new_lecture_list.toString() + Integer.toString(i);
+				m_permute_memory.add(new_permute_memory_member);
+			}
 		}
-		UpdateDynamicScore(sub_lecture_list,max);
-		UpdateBestScores(max);
+//		UpdateDynamicScore(sub_lecture_list,max);
+//		UpdateBestScores(max);
 		return max;
 	}
 
@@ -138,10 +147,10 @@ public class SpacedOut {
 		char[] chars = sub_lecture_list.toCharArray();
 		Arrays.sort(chars);
 		String sorted = new String(chars);
-		m_dynamic_scores.put(sorted, max);
+		m_best_combinatorial_scores.put(sorted, max);
 	}
 
-	private Double SpaceCurrent(ArrayList<Integer> new_lecture_list, int i) {
+	private Double SpacingBetween(ArrayList<Integer> first_lecture_set, ArrayList<Integer> second_lecture_set) {
 		return null;
 	}
 
@@ -150,7 +159,7 @@ public class SpacedOut {
 		return new_lecture_list;
 	}
 
-	private void ComputeDistance(ArrayList<Integer> lecture_list) {
+	private void Spacing(ArrayList<Integer> lecture_list) {
 		HashMap<Integer, Integer> last_element_index = new HashMap<Integer, Integer>();
 		double score = 0;
 		for (int i = 0; i < lecture_list.size(); i++) {
