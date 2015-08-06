@@ -1,0 +1,116 @@
+need to work on finding some tool to manage the documents
+__________________
+	need to create the new gmail account
+	need to list down the ideal properties of the time table 52 
+		1. equally spaced out subjects 
+		2. no conflicts in teacher assignation 
+	need to think of algorithm 58 
+		abcabc --> 18
+		aabbcc --> 6
+		abccba --> 5+5+3+3+1+1 = 18 
+	need to define algo for finding the distances between each values 
+
+need to define algo for finding the distances between each values 
+______________
+	need to think the laymans solution 16 
+	need to get the eclipse setup done 39 
+	need to implement the permute code 43 
+	need to resolve the build problem 24 
+	need to know how to find permutation with repeated chars 30 
+	need to list AI 
+		1. Permutation with repeated chars 
+		
+need to work on " Permutation with repeated chars"
+______________
+	need to debug the problem of getting extra values 12 
+		<lecture list at root keeps changing. Become the one last updated>
+	need to implement code to check whether char array is pass by reference 42 
+		<pass by reference>
+	need to create the decision tree of bab
+	need to create decision tree of abb 
+	need to know how to preclude the repetition 
+	need to think of getting the formula for optimised timetable 
+		<sumof(rootof(distance))>
+	need to list down the solution 
+		<use basic permutation, memoize the pattern, if repeated, bound it altogether>
+
+need to work on "permutation with repeated chars and memoization technique"
+___________
+	need to implement the permute function 
+		need to work on counting the number of permutation iterations done till so far 39 
+		need to list open questions/AI 
+			1. what are diff ways by which pemutation can be stopped 
+			2. how repeated values can be curtailed  
+	need to update the Permute code 40 
+	need to theorize the solution 54 
+	need to implement the solution 59 
+	need to know why Hash set is not getting recognised 04
+		<char array is not recognised>
+	need to implement the solution 08
+
+need to work on ComputeDistance algorithm
+____________
+	need to theorise the solution 17 
+	need to implement the PrintRankedTimeTable() 03
+	
+need to print timetable for 3 classes 
+______________
+	need to list down the constrainst 
+		1. same teacher cannot be assigned to 2  or more classes at same time 
+		2. Teacher cannot be assigned beyond class range 
+		3. Teacher can be assigned to one section of one class 
+		4. critical subjects has be in first half
+		5. List of teachers free that time for unplanned single day leave 
+		6. unplanned long leave, new time table  
+	need to list other requirements 
+		1. criticla subjects has be in first half
+	need to know what can be done to simplify the things 27 
+		1. removal of sections
+		2. removal of multiple classes 
+
+need to create the time table for a class 
+____________
+	need to define the input form 11 
+		<ArrayList<ArrayList>TimeTable(map<String, Integer>)>
+	need to convert char to string 47 
+	need to permute in terms of integer array
+	need to convert into integer array
+	need to define the TimeTable 
+	need to know how to modify so that print Ranked Time Table prints subject name 14 
+		<"need to write method that converts the stringed integer array back to day*period arrays">
+	need to implement the CreateLectureList() 28 
+	need to ensure Permute happens using arrayList 
+	need to find the fallacy for abcdeeff 23
+
+need to ensure abcdeeff yields 10080 result
+____________
+	need to know how to get the hash key for string and an integer  55
+	need to how to find if value is an anagram to another 
+	need to list tasks to be completed 
+		1. permutation of 40 sized array 
+
+need to work on "permutation of 40 sized array "
+___________
+	need to list open tasks  
+		1. how to use max heap in java 
+	need to ensure permutation count is reduced for repeated values 
+	need to know the issue 08 
+	need to think why not a sigle permuattion is being registered 04
+	need to know why mismatch in actual perm and counted perm 
+	need to list next set of problems 40 
+		1. Branch and bound
+	need to theorise the branch and bound code 41 
+		need to list open questions 
+			1. why best permutation under combination is looked for 
+			2. what are list of terminating conditions
+	need to modify the names of variable and corresponding methods it owns 47 + 05 
+	need to implement the permuation code  
+			need to define the parts in implementation of permuation code 59
+				1. all terminating conditions 
+				2. modify the permutation code so that best permuation and score under a combination is obtained 
+			need to list open questions 
+				1. when should best combinatorial scores needs to be memoised 
+				2. why should best combinatorial score needs to be memoised 
+				3. what is the use of manatining all permuatations and score AND top k scores 
+				4. what will be best and worst complexity of branch and bound solution 
+				5. should best combinatorial score data structure contain just score or both score and best permutation underneath 
