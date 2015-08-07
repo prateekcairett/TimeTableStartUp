@@ -109,8 +109,81 @@ ___________
 				1. all terminating conditions 
 				2. modify the permutation code so that best permuation and score under a combination is obtained 
 			need to list open questions 
-				1. when should best combinatorial scores needs to be memoised 
-				2. why should best combinatorial score needs to be memoised 
-				3. what is the use of manatining all permuatations and score AND top k scores 
-				4. what will be best and worst complexity of branch and bound solution 
-				5. should best combinatorial score data structure contain just score or both score and best permutation underneath 
+			//	1. when should best combinatorial scores needs to be memoised 
+			//	2. why should best combinatorial score needs to be memoised 
+			//	3. what is the use of manatining all permuatations and score AND top k scores 
+			//	4. what will be best and worst complexity of branch and bound solution 
+			//	5. should best combinatorial score data structure contain just score or both score and best permutation underneath 
+	need to work on "when should best combinatorial scores needs to be memoised " 34
+		<when permuation output is obatained and memoise the best sub permuattion as well >
+	need to work on "why should best combinatorial score needs to be memoised " 35
+		<so that space between() can be computed. >
+	need to work on "what is the use of manatining all permuatations and score AND top k scores "
+		<"all permuatation because if calculated but managed to get out of the top k scores, Top k scores to bound the permuation btranches">
+	need to work on "what will be best and worst complexity of branch and bound solution " 04 
+		<kn and n^n>
+	need to work on "should best combinatorial score data structure contain just score or both score and best permutation underneath "
+		<need to memoise the solution. both should be memoised and recovered from a key. And Key is combinatorial score>
+
+need to work on implementing the perm code 
+____________
+	need to draft the algo 14 
+	need to list open questions 
+	//	1. what should we return if we are not going to compute the score
+	//	2. what should be reurned if array is of zero length 
+	//	3. what should we return if such node structure(exact match in terms of array and ith position) is already taken care 
+	//	4. write the expression for "get the best score and perm value for combinatorial array" 
+	need to work on "what should we return if we are not going to compute the score"
+		need to know what is UK1 25 
+		<return best combinatorial score and sub perm>
+	need to work on "what should be reurned if array is of zero length " 28
+		<score : 0 | combination: -1>
+	need to work on "what should we return if such node structure(exact match in terms of array and ith position) is already taken care "
+		<best permute for combinatorial score and sub perm we already had>
+	
+	need to list open question 
+
+need to work on updating the return statements code 
+_______________
+	need to reiterate three base cases 
+	need to implement the code 46 
+	need to list open questions
+		1. what UpdateDynamicScore() is doing and what name it should be changed to
+	need to work on "what UpdateDynamicScore() is doing and what name it should be changed to" 18  
+		<should be  UpdateBestCombinatorialScore()>
+
+need to work on implementing the core Permutation Logic 
+______________
+	need to theorise the solution 24 
+	need to know how to create class within class using the helper links in IDE itself 
+	need to get the skeleton ready for each code piece 31  
+	need to implement the solution 30 + 05 + 03 + 05 + 05
+	need to work on defining the pseudo algo for creating the best combinatorial score returned from after doing branch permuatatation 55 
+		<Get The spacing score and get the sub permuation by adding the first with all dynamic one >
+	need to list open questions
+		1. why am i using ArrayList rather than just integer array 
+	need to glean all problems in the code base i have 40
+	//	1. IsBestCombinatorialScore()
+	//	2. CombinatorialScore class needs to be defined 
+	//	3. BestCombinatorialScore() func needs to be defined 
+		4. DummyCombinatorialScore
+		4. NodeBestCombinatorialScore() function needs to be defined
+		5. IsPermuteNodeStructureTraversed()
+		6. Permute() needs to be modified as per new CombinatorialScore output 
+		7. CS.RawCombinatorialScore() func needs to be defined and get one as well
+		8. SpacingBetween()
+		9. BestSubPermutation() and setter as well 
+	need to work on "IsBestCombinatorialScore()"
+		need to know what this function do 53 
+		need to theorise the solution 55 
+			<create sub array list from i till end, convert it to string. look for if it contains or not>
+		need to implement the solution 01 + 03 + 03
+	need to work on  "BestCombinatorialScore() func needs to be defined" 
+		need to know what does this func works 10 
+		need to theorise the solution 13 
+			<creates sun arraylist , conver to string and then sort, return the value based on sorted value>
+		need to implement the solution 15 
+	need to work on 
+		
+	
+		

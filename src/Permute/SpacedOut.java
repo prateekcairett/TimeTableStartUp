@@ -14,12 +14,34 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class SpacedOut {
+	public class CombinatorialScore {
+		Double m_raw_combinatorial_score;
+		ArrayList<Integer> m_best_sub_permutation;
+		public Double RawCombinatorialScore() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		public ArrayList<Integer> BestSubPermutation() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		public void SetRawCombinatorialScore(Double raw_combinatorial_score) {
+			// TODO Auto-generated method stub
+			
+		}
+		public void SetBestSubPermuatation(
+				ArrayList<Integer> best_sub_permutation) {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+
 	private HashSet<String> m_permute_memory;
 	private HashMap<String, Double> m_ranked_timetable;
 	private Map<Integer, String> m_subject_code;
 	
 	private Queue<Double> m_top_k_scores = new PriorityQueue<>(10); 
-	private Map<String, Double> m_best_combinatorial_scores;
+	private Map<String, CombinatorialScore> m_best_combinatorial_scores;
 	public int m_permuation_count;
 	
 	public SpacedOut(){
@@ -36,17 +58,17 @@ public class SpacedOut {
 		return m_top_k_scores.peek();
 	}
 	
-	public Double BestCombinatorialScore(String lecture_subset){
-		char[] chars = lecture_subset.toCharArray();
+	public CombinatorialScore BestCombinatorialScore(ArrayList<Integer> lecture_list, int i){
+		ArrayList<Integer> sub_node_structure = new ArrayList<>();
+		sub_node_structure.subList(i, lecture_list.size()-1);
+		String sub_node_structure_hashed = sub_node_structure.toString();
+		char[] chars = sub_node_structure_hashed.toCharArray();
 		Arrays.sort(chars);
-		String sorted = new String(chars);
-		if(m_best_combinatorial_scores.containsKey(sorted))
-			return m_best_combinatorial_scores.get(sorted);
-		else
-			return -1.0;
+		String sub_node_structure_sorted = new String(chars);
+		return m_best_combinatorial_scores.get(sub_node_structure_sorted);
 	}
 	
-	public void UpdateBestCombinatorialScore(Double score){
+	public void UpdateTopKScores(Double score){
 		Double min_score = m_top_k_scores.peek();
 		if(score > min_score){
 			if(m_top_k_scores.size() == 10){
@@ -104,46 +126,87 @@ public class SpacedOut {
 		}
 		return lecture_list;
 	}
-	public Double Permute(ArrayList<Integer> lecture_list, int i){
-		String permute_memory_member = lecture_list.toString() + Integer.toString(i);
-		String sub_lecture_list = permute_memory_member.substring(i, permute_memory_member.length()-1);
-		Double sub_lecture_dynamic_score = BestCombinatorialScore(sub_lecture_list);
-		Double min_top_score = MinInTopKScores();
-		
-		if(m_permute_memory.contains(permute_memory_member))
-			return sub_lecture_dynamic_score;
-		
-		if(i==lecture_list.size()){
-			m_permuation_count++;
-			Spacing(lecture_list);
-			return 0.0;
+	public CombinatorialScore Permute(ArrayList<Integer> lecture_list, int i){
+		if(IsBestCombinatorialScore(lecture_list, i)){
+			CombinatorialScore combinatorial_score = BestCombinatorialScore(lecture_list, i);
+			Double node_best_combinatorial_score = NodeBestCombinatorialScore(lecture_list, i, combinatorial_score);
+			Double min_top_k_score = MinInTopKScores();
+			if(node_best_combinatorial_score <= min_top_k_score){
+				return combinatorial_score;
+			}
+			else{
+				UpdateTopKScores(node_best_combinatorial_score);
+			}
 		}
 		
-//		else if(sub_lecture_dynamic_score != -1 || sub_lecture_dynamic_score < min_top_score){
-//			return sub_lecture_dynamic_score;
-//		}
+		else if(IsPermuteNodeStructureTraversed(lecture_list, i))
+			return BestCombinatorialScore(lecture_list, i);
+		
+		else if(i==lecture_list.size()){
+			m_permuation_count++;
+			Spacing(lecture_list);
+			return DummyCombinatorialScore();
+		}
+		
 		
 		Double max = 0.0;
+		CombinatorialScore max_combinatorial_score = new CombinatorialScore();
 		for (int j = i; j < lecture_list.size(); j++) {
 			ArrayList<Integer> new_lecture_list = new ArrayList<Integer>(lecture_list);
 			int first_value = new_lecture_list.get(i).intValue();
 			int second_value = new_lecture_list.get(j).intValue();
 			if( first_value != second_value || i == j){
 				new_lecture_list = LectureSwap(new_lecture_list, i, j);
-				//System.out.println(i + " : " + j + new_lecture_list);
-				Double value = Permute(new_lecture_list, i + 1); // + SpaceCurrent(new_lecture_list, i);
-				if(value > max)
-					max = value;
+				CombinatorialScore combinatorial_score = Permute(new_lecture_list, i + 1); // + SpaceCurrent(new_lecture_list, i);
+				ArrayList<Integer> left = new ArrayList<>();
+				left.add(lecture_list.get(i));
+				ArrayList<Integer> right = new ArrayList<>(lecture_list.subList(i+1, lecture_list.size()-1));
+				Double raw_combinatorial_score = combinatorial_score.RawCombinatorialScore() 
+						+ SpacingBetween(left, right);
+				if(raw_combinatorial_score > max){
+					max = raw_combinatorial_score;
+					ArrayList<Integer> best_branched_sub_permutation = combinatorial_score.BestSubPermutation();
+					ArrayList<Integer> best_sub_permutation = new ArrayList<>();
+					best_sub_permutation.add(lecture_list.get(i).intValue());
+					best_sub_permutation.addAll(best_branched_sub_permutation);
+					max_combinatorial_score.SetRawCombinatorialScore(raw_combinatorial_score);
+					max_combinatorial_score.SetBestSubPermuatation(best_sub_permutation);
+				}
 				String new_permute_memory_member = new_lecture_list.toString() + Integer.toString(i);
 				m_permute_memory.add(new_permute_memory_member);
 			}
 		}
-//		UpdateDynamicScore(sub_lecture_list,max);
-//		UpdateBestScores(max);
-		return max;
+		return max_combinatorial_score;
 	}
 
-	private void UpdateDynamicScore(String sub_lecture_list, Double max) {
+	private boolean IsPermuteNodeStructureTraversed(
+			ArrayList<Integer> lecture_list, int i) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private CombinatorialScore DummyCombinatorialScore() {
+		return null;
+	}
+
+	private Double NodeBestCombinatorialScore(ArrayList<Integer> lecture_list,
+			int i, CombinatorialScore combinatorial_score) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private boolean IsBestCombinatorialScore(ArrayList<Integer> lecture_list,
+			int i) {
+		ArrayList<Integer> sub_node_structure = new ArrayList<>();
+		sub_node_structure.subList(i, lecture_list.size()-1);
+		String sub_node_structure_hashed = sub_node_structure.toString();
+		char[] chars = sub_node_structure_hashed.toCharArray();
+		Arrays.sort(chars);
+		String sub_node_structure_sorted = new String(chars);
+		return m_best_combinatorial_scores.containsKey(sub_node_structure_sorted);
+	}
+
+	private void UpdateBestCombinatorialScore(String sub_lecture_list, CombinatorialScore max) {
 		char[] chars = sub_lecture_list.toCharArray();
 		Arrays.sort(chars);
 		String sorted = new String(chars);
@@ -159,7 +222,7 @@ public class SpacedOut {
 		return new_lecture_list;
 	}
 
-	private void Spacing(ArrayList<Integer> lecture_list) {
+	private Double Spacing(ArrayList<Integer> lecture_list) {
 		HashMap<Integer, Integer> last_element_index = new HashMap<Integer, Integer>();
 		double score = 0;
 		for (int i = 0; i < lecture_list.size(); i++) {
@@ -172,11 +235,12 @@ public class SpacedOut {
 			else
 				last_element_index.put(lecture_key, i);
 		}
+		return score;
+	}
+	
+	private void UpdateRankedTimeTables(ArrayList<Integer> lecture_list, Double score){
 		String solution_lecture_list = lecture_list.toString();
-		//System.out.println(solution_lecture_list + " : " + Double.toString(score));
-		m_ranked_timetable.put(solution_lecture_list, score);
-		//System.out.println(solution_lecture_list + " : " + score);
-		//PrintRankedTimeTables(ranked_timetable);
+		m_ranked_timetable.put(solution_lecture_list, score);		
 	}
 	
 	private void PrintRankedTimeTables(HashMap<String, Double> ranked_timetable) {
