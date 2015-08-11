@@ -166,13 +166,13 @@ ______________
 	//	1. IsBestCombinatorialScore()
 	//	2. CombinatorialScore class needs to be defined 
 	//	3. BestCombinatorialScore() func needs to be defined 
-		4. DummyCombinatorialScore
-		4. NodeBestCombinatorialScore() function needs to be defined
-		5. IsPermuteNodeStructureTraversed()
+	//	4. DummyCombinatorialScore
+	//	4. NodeBestCombinatorialScore() function needs to be defined
+	//	5. IsPermuteNodeStructureTraversed()
 		6. Permute() needs to be modified as per new CombinatorialScore output 
-		7. CS.RawCombinatorialScore() func needs to be defined and get one as well
+	//	7. CS.RawCombinatorialScore() func needs to be defined and get one as well
 		8. SpacingBetween()
-		9. BestSubPermutation() and setter as well 
+	//	9. BestSubPermutation() and setter as well 
 	need to work on "IsBestCombinatorialScore()"
 		need to know what this function do 53 
 		need to theorise the solution 55 
@@ -183,7 +183,44 @@ ______________
 		need to theorise the solution 13 
 			<creates sun arraylist , conver to string and then sort, return the value based on sorted value>
 		need to implement the solution 15 
-	need to work on 
+	need to work on "DummyCombinatorialScore"
+		need to know when DummyCOmbinatorialScore is required 45  
+		need to rename 44
+		need to implement the solution 46 
+	need to work on "NodeBestCombinatorialScore"
+		need to know what it does 50 
+		need to define the algorithm 43
+			<get the static score from lecture list, get the sorted dynamic combination, get the best permutation, combine static and best permuatation into one full best possible permutation. Find spacing in best full permutation >
+		need to implement the solution 54 +05
+		need to implement the SubLectureList
+		need to implement the BestOptimisedPermutation
+			need to understand what this function do  13
+			need to theorise the solution 16 
+		need to glean the required tasks
+			1. SubLectureList
+			2. BestOptimisedPermutation
+			3. CombineSubLectures
+		need to list open questions 
+			1. whay am i finding static and dynamic array many times. Can i do something to get the static array at once 	
+			2. refactor codes which require bestoptimisedpermutataion etc.  
 		
 	
-		
+need to reafctor code based on sub lecture list 
+____________		
+	need to write new menthod SubList()
+	need to know when should UpdateCOmbinatorialScore should be called upon 56 
+	need to execute the code piece 08
+	need to know why from index is greater than to index 11
+	need to know why combinatorial score is coming out to be null when permuting all sub nodes 16 
+	need to resolve the out of bound array prob in best combinatorial array 26 
+	need to know why base combinatorial score itself is null 34
+	need to list open questions 
+		1. why combination of 1 getting score of 1 
+	need to know why best permutation is getting -1 01 
+
+need to resolve the build issues 
+__________
+	need to find solution to min k Score 36
+	need to implement the initialisation code 41 
+	need to think why i ==4 case can happen 46 
+	need to think of algo of generating the list with best possible spacig upfront
