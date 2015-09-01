@@ -223,4 +223,71 @@ __________
 	need to find solution to min k Score 36
 	need to implement the initialisation code 41 
 	need to think why i ==4 case can happen 46 
-	need to think of algo of generating the list with best possible spacig upfront
+	need to think of algo of generating the list with best possible spacig upfront 37 
+
+need to think of what task to be taken next 28
+	<How to create a lecture list which itself has very good permutation score>
+
+need to work on "How to create a lecture list which itself has very good permutation score"
+______________
+	need to theorise the solution  56 
+		need to list open questions 
+			1. how to know which one will start from which position and then repreat thereafter 
+			2. will there be clash for space when filling out the plcaes where lecture will be put. How clash will be resolved 
+		need to list AI 
+			1. find first empty position
+			2. closest empty position on either side
+	need to think the logic of creating the well spaced out lecture list  05 
+		<find the repeatition rate. find first empty location. update values as per repetion rate to get new location. if new location is not filled up, update the value. if filled up, find the next closest empty location on either side, update new location as the one next closest empty location. Keep on filling for lecture types>
+	need to know the code piece where such code will be integerated 16 
+		<CreateLectureList() needs to be modified as per new algorithm>
+	need to work on implementing the pseudo code 26 + 10
+
+need to work on implementing the round function
+_______________
+	need to know if java has already built in code for rounding the integer value 46
+	need to implement the code  49 
+
+need to work on "FirstEmptyLectureSlot"
+_____________
+	need to theorise the solution 00 + 5 
+		<get the first value from empty lecture slots>
+	need to know how to get value from index 
+	need to implement the pseudo code 43 
+	need to list AI / open items 
+		1. setting a location requires removing position from empty location pool. refactor the code for warpping the set value into something cohesive code
+
+need to work on "IsNextPotentialLocationOccupied"
+_____________
+	need to theorise the solution 48 
+		<will binary search for location in empty lecture slots. if index is greater than 0, then location is not occupied else it is occupied>
+	need to list open questions/AI 
+		1. what is binary search output if element is not found 
+	need to work on "what is binary search output if element is not found" 50 
+	need to implement the pseudo code 53 
+
+need to work on "NextClosestEmptyLocation"
+_____________
+	need to theorise the solution 57 
+		<keep on iterating the binary search for the value. Base case would have been if array size becomes one, return closest value between single value in sub array or next value in complete array>
+	need to implement the pseudo code 44
+
+need to test the functionality of getting the correct spaced start lecture_list 
+_____________
+	need to define the TCs 52  
+		1. 	5,1,1,1,1,1,
+		1. 1,1,1,1,1,5
+		2.  2,2,2,2,2,
+		3. 5,3,2,1
+	need to know how to test the functionality out 54 
+	need to execute the TC1 56 
+	need to resolve error "lecture_list.set(first_empty_location, i);"
+		need to think of possible solution for this 07 
+		need to fix the issue 08 
+		need to list AI
+			1.  ensure values are removed after setting the value in lecture list 
+	need to understand the error statement 59 
+	need to define the problem statment 
+		1. why my code is trying to insert more than 11 lectures when total lecture count is just 10
+		2. why 0(with 5 occurences) is not equally spaced 
+	need to think reason for "why my code is trying to insert more than 11 lectures when total lecture count is just 10"
